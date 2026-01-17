@@ -27,11 +27,12 @@ export default function SchoolView() {
 
     const totalStudents = students.length;
     const averageAttendence = students.reduce(
-      (acc, curr) => acc + curr.attendance / totalStudents,
+      (acc, curr) =>
+        acc + (curr.attendance ? curr.attendance : 0) / totalStudents,
       0,
     );
     const averageMarks = students.reduce(
-      (acc, curr) => acc + curr.marks / totalStudents,
+      (acc, curr) => acc + (curr.marks ? curr.marks : 0) / totalStudents,
       0,
     );
     const topStudent = students.reduce((acc, curr) =>

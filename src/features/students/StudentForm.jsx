@@ -9,9 +9,15 @@ export default function StudentForm() {
   const [age, setAge] = useState("");
   const [grade, setGrade] = useState("");
   const [gender, setGender] = useState("");
+  const [err, setErr] = useState("");
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+
+    if (gender === "") {
+      setErr("Please Select Gender");
+      return;
+    }
 
     dispatch(addStudent({ name, age, grade, gender }));
     setName("");
@@ -29,13 +35,15 @@ export default function StudentForm() {
           className="border border-gray-400 px-2 outline-none max-w-50"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          required
         />
         <input
-          type="text"
+          type="number"
           placeholder="Age"
           className="border border-gray-400 px-2 outline-none max-w-50"
           value={age}
           onChange={(e) => setAge(e.target.value)}
+          required
         />
         <input
           type="text"
@@ -43,6 +51,7 @@ export default function StudentForm() {
           className="border border-gray-400 px-2 outline-none max-w-50"
           value={grade}
           onChange={(e) => setGrade(e.target.value)}
+          required
         />
         <div>
           <label htmlFor="gender">Gender :</label>&nbsp;&nbsp;
@@ -51,7 +60,10 @@ export default function StudentForm() {
               type="radio"
               name="gender"
               value="Male"
-              onChange={(e) => setGender(e.target.value)}
+              onChange={(e) => {
+                setGender(e.target.value);
+                setErr("");
+              }}
             />
             &nbsp; Male
           </label>
@@ -61,10 +73,14 @@ export default function StudentForm() {
               type="radio"
               name="gender"
               value="Female"
-              onChange={(e) => setGender(e.target.value)}
+              onChange={(e) => {
+                setGender(e.target.value);
+                setErr("");
+              }}
             />
             &nbsp; Female
           </label>
+          {err && <p className="text-red-500">{err}</p>}
         </div>
 
         <button className="max-w-50 text-white py-1 rounded-sm cursor-pointer bg-blue-500">

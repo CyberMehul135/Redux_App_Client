@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addStudent, editStudent } from "./studentsSlice";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function StudentEditForm() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { state } = useLocation();
   const student = state?.studentDetails;
@@ -17,13 +18,12 @@ export default function StudentEditForm() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log(student._id);
 
     dispatch(
       editStudent({
         studentId: student._id,
         dataToUpdate: { name, age, grade, gender, attendance, marks },
-      })
+      }),
     );
     setName("");
     setAge("");
@@ -31,6 +31,7 @@ export default function StudentEditForm() {
     setGender("");
     setAttendance("");
     setMarks("");
+    navigate("/");
   };
 
   return (
@@ -64,6 +65,7 @@ export default function StudentEditForm() {
               type="radio"
               name="gender"
               value="Male"
+              checked={gender == "Male"}
               onChange={(e) => setGender(e.target.value)}
             />
             &nbsp; Male
@@ -74,6 +76,7 @@ export default function StudentEditForm() {
               type="radio"
               name="gender"
               value="Female"
+              checked={gender == "Female"}
               onChange={(e) => setGender(e.target.value)}
             />
             &nbsp; Female

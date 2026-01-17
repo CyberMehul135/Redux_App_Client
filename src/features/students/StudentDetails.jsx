@@ -1,18 +1,20 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { deleteStudent, fetchStudents } from "./studentsSlice";
 
 export default function StudentDetails() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id: studentId } = useParams();
   const { students, status, error } = useSelector((state) => state.students);
   const studentDetails = useSelector((state) =>
-    state.students.students.find((student) => student._id == studentId)
+    state.students.students.find((student) => student._id == studentId),
   );
 
   const deleteStudentHandler = () => {
     dispatch(deleteStudent(studentDetails._id));
+    navigate("/");
   };
 
   useEffect(() => {
@@ -27,8 +29,11 @@ export default function StudentDetails() {
         <p className="mt-2">Name: {studentDetails.name}</p>
         <p>Age: {studentDetails.age}</p>
         <p>Grade: {studentDetails.grade}</p>
-        <p>Attendence: {studentDetails.attendance}</p>
-        <p>Marks: {studentDetails.marks}</p>
+        <p>
+          Attendence:{" "}
+          {studentDetails.attendance ? studentDetails.attendance : "-"}
+        </p>
+        <p>Marks: {studentDetails.marks ? studentDetails.marks : "-"}</p>
 
         <div className="flex gap-4">
           <button className="bg-yellow-500 text-white px-3 py-1 rounded-sm cursor-pointer">
